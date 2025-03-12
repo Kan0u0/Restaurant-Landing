@@ -1,11 +1,13 @@
-import ProfileCard from "./components/ProfileCard";
+import LoginCard from "./components/LoginCard";
 import SocialButtons from "./components/SocialButtons";
+import SignupLink from "./components/SignupLink";
 
 export default function App() {
   return (
     <div>
-      <ProfileCard />
+      <LoginCard />
       <SocialButtons />
+      <SignupLink />
     </div>
   );
 }
