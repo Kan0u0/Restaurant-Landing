@@ -1,16 +1,15 @@
-import LoginCard from "./components/LoginCard";
-import SocialButtons from "./components/SocialButtons";
-import SignupLink from "./components/SignupLink";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./components/Dashboard";
 
-export default function App() {
+function App() {
   return (
-    <div>
-      <LoginCard />
-      <SocialButtons />
-      <SignupLink />
+    <div className="flex bg-[#f4f4f9] min-h-screen">
+      <Sidebar />
+      <div className="flex-1 p-6">
+        <Dashboard />
+      </div>
     </div>
   );
 }
 
-
-
+export default App;
