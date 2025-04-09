@@ -1,15 +1,11 @@
-import Sidebar from "./components/Sidebar";
-import Dashboard from "./components/Dashboard";
+import TodoApp from "./components/TodoApp";
 
-function App() {
+const App = () => {
   return (
-    <div className="flex bg-[#f4f4f9] min-h-screen">
-      <Sidebar />
-      <div className="flex-1 p-6">
-        <Dashboard />
-      </div>
+    <div>
+      <TodoApp />
     </div>
   );
-}
+};
 
 export default App;
