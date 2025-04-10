@@ -36,19 +36,21 @@ const TodoApp = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-orange-600 mb-4">🔥 Firebase Todo App</h2>
-        <form onSubmit={addTodo} className="flex gap-2 mb-4">
+      <div className="bg-white shadow-lg rounded-lg p-6 w-full sm:max-w-md">
+        <h2 className="text-xl sm:text-2xl font-bold text-center text-orange-600 mb-4">
+          🔥 Firebase Todo App
+        </h2>
+        <form onSubmit={addTodo} className="flex flex-col sm:flex-row gap-2 mb-4">
           <input
             type="text"
             value={task}
             onChange={(e) => setTask(e.target.value)}
             placeholder="Enter a task"
-            className="flex-1 px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-orange-400"
           />
           <button
             type="submit"
-            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded transition"
+            className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded transition"
           >
             Add
           </button>
@@ -59,7 +61,7 @@ const TodoApp = () => {
               key={todo.id}
               className="flex justify-between items-center bg-gray-50 px-4 py-2 rounded border border-gray-200"
             >
-              <span>{todo.text}</span>
+              <span className="text-sm sm:text-base break-words max-w-[70%]">{todo.text}</span>
               <button
                 onClick={() => deleteTodo(todo.id)}
                 className="text-sm text-red-500 hover:text-red-700"
