@@ -1,20 +1,11 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}"
+    './src/**/*.{js,jsx,ts,tsx}',
   ],
+  darkMode: 'class',  // Ensures that we can toggle dark mode using the 'class' method
   theme: {
-    extend: {
-      animation: {
-        float: "float 3s ease-in-out infinite",
-      },
-      keyframes: {
-        float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
-        },
-      },
-    },
+    extend: {},
   },
   plugins: [],
 };
