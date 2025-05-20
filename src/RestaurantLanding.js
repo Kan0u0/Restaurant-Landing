@@ -38,11 +38,17 @@ const AnimatedCounter = ({ value, label }) => {
       { threshold: 0.5 }
     );
     
-    if (counterRef.current) {
-      observer.observe(counterRef.current);
+    const currentRef = counterRef.current;
+    
+    if (currentRef) {
+      observer.observe(currentRef);
     }
     
-    return () => counterRef.current && observer.unobserve(counterRef.current);
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
   }, [value]);
   
   return (
@@ -582,13 +588,13 @@ export default function RestaurantLanding() {
                 </div>
                 
                 <div className="flex space-x-4 pt-4">
-                  <a href="#" className="bg-amber-600 text-white p-2 rounded-full hover:bg-amber-700 duration-300">
+                  <a href="https://facebook.com/savoria" className="bg-amber-600 text-white p-2 rounded-full hover:bg-amber-700 duration-300">
                     <Facebook size={20} />
                   </a>
-                  <a href="#" className="bg-amber-600 text-white p-2 rounded-full hover:bg-amber-700 duration-300">
+                  <a href="https://instagram.com/savoria" className="bg-amber-600 text-white p-2 rounded-full hover:bg-amber-700 duration-300">
                     <Instagram size={20} />
                   </a>
-                  <a href="#" className="bg-amber-600 text-white p-2 rounded-full hover:bg-amber-700 duration-300">
+                  <a href="https://twitter.com/savoria" className="bg-amber-600 text-white p-2 rounded-full hover:bg-amber-700 duration-300">
                     <Twitter size={20} />
                   </a>
                 </div>
