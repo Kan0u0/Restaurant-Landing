@@ -1,47 +1,48 @@
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X, MapPin, Phone, Mail, Clock, Instagram, Facebook, Twitter, ChevronDown, Star, Award, Users, Gift } from 'lucide-react';
 
-// Simplified LazyImage Component
+// Simplified Components
 const LazyImage = ({ src, alt, className }) => (
   <div className={`overflow-hidden ${className}`}>
     <img src={src} alt={alt} className="w-full h-full object-cover" />
   </div>
 );
 
-// Counter Animation Component
+// Counter Animation Component - Optimized
 const AnimatedCounter = ({ value, label }) => {
   const [count, setCount] = useState(0);
   const counterRef = useRef(null);
   
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        let start = 0;
-        const end = parseInt(value.replace(/[^0-9]/g, ''));
-        const duration = 2000;
-        const increment = Math.ceil(end / (duration / 16));
-        
-        const timer = setInterval(() => {
-          start += increment;
-          if (start > end) {
-            setCount(end);
-            clearInterval(timer);
-          } else {
-            setCount(start);
-          }
-        }, 16);
-        
-        observer.unobserve(entries[0].target);
-      }
-    }, { threshold: 0.5 });
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          let start = 0;
+          const end = parseInt(value.replace(/[^0-9]/g, ''));
+          const duration = 2000;
+          const increment = Math.ceil(end / (duration / 16));
+          
+          const timer = setInterval(() => {
+            start += increment;
+            if (start > end) {
+              setCount(end);
+              clearInterval(timer);
+            } else {
+              setCount(start);
+            }
+          }, 16);
+          
+          observer.unobserve(entries[0].target);
+        }
+      }, 
+      { threshold: 0.5 }
+    );
     
     if (counterRef.current) {
       observer.observe(counterRef.current);
     }
     
-    return () => {
-      if (counterRef.current) observer.unobserve(counterRef.current);
-    };
+    return () => counterRef.current && observer.unobserve(counterRef.current);
   }, [value]);
   
   return (
@@ -56,23 +57,23 @@ const AnimatedCounter = ({ value, label }) => {
   );
 };
 
-// Sample Data
+// Sample Data - Moved outside component to reduce re-creation
 const MENU_ITEMS = [
   {
-    image: `/trufflepasta.jpg`,
+    image: "/trufflepasta.jpg",
     name: "Truffle Pasta",
     description: "House-made tagliatelle with black truffle, porcini mushrooms, and a light cream sauce.",
     price: "24.95",
     isSpecial: true
   },
   {
-    image: `/seabass.jpg`,
+    image: "/seabass.jpg",
     name: "Grilled Sea Bass",
     description: "Fresh Mediterranean sea bass with lemon, herbs, and roasted seasonal vegetables.",
     price: "32.50"
   },
   {
-    image: `/ribeyesteak.jpg`,
+    image: "/ribeyesteak.jpg",
     name: "Ribeye Steak",
     description: "Prime cut 12oz ribeye with garlic butter, served with truffle fries and grilled asparagus.",
     price: "38.95"
@@ -185,28 +186,26 @@ export default function RestaurantLanding() {
 
   // Track scroll position for nav styling
   useEffect(() => {
-    const handleScrollPosition = () => {
-      setIsScrolled(window.scrollY > 100);
-    };
-    
+    const handleScrollPosition = () => setIsScrolled(window.scrollY > 100);
     window.addEventListener('scroll', handleScrollPosition);
     return () => window.removeEventListener('scroll', handleScrollPosition);
   }, []);
 
-  // Track active section during scroll
+  // Track active section during scroll - optimized
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll('section');
       const scrollPosition = window.scrollY + 100;
 
-      sections.forEach(section => {
+      for (const section of sections) {
         const sectionTop = section.offsetTop;
         const sectionHeight = section.offsetHeight;
         
         if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
           setActiveSection(section.id);
+          break;
         }
-      });
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -233,19 +232,17 @@ export default function RestaurantLanding() {
     setFormData({ name: '', email: '', phone: '', guests: '2', date: '', time: '', message: '' });
   };
 
-  // Navigation link component - FIXED to handle text color changes
+  // Navigation link component - Fixed to properly handle text colors
   const NavLink = ({ id, label }) => (
     <button 
       onClick={() => scrollToSection(id)}
-      className={`
-        ${activeSection === id 
+      className={`pb-1 transition-colors duration-200 ${
+        activeSection === id 
           ? 'text-amber-600 border-b-2 border-amber-600' 
           : isScrolled 
             ? 'text-gray-800 hover:text-amber-600' 
             : 'text-white hover:text-amber-600'
-        } 
-        pb-1 transition-colors duration-200
-      `}
+      }`}
     >
       {label}
     </button>
@@ -253,7 +250,7 @@ export default function RestaurantLanding() {
 
   return (
     <div className="font-sans bg-amber-50 text-gray-800">
-      {/* Navigation */}
+      {/* Navigation - Fixed CSS syntax issues */}
       <nav className={`fixed w-full ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'} transition-all duration-300 z-50`}>
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-20">
@@ -281,7 +278,7 @@ export default function RestaurantLanding() {
             </div>
           </div>
         </div>
-        {/* Mobile menu - FIXED to have proper text colors */}
+        {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden bg-white pt-2 pb-4 px-4">
             <div className="flex flex-col space-y-3">
@@ -289,7 +286,11 @@ export default function RestaurantLanding() {
                 <button
                   key={id}
                   onClick={() => scrollToSection(id)}
-                  className={`${activeSection === id ? 'text-amber-600 border-b-2 border-amber-600' : 'text-gray-800 hover:text-amber-600'} pb-1 transition-colors duration-200`}
+                  className={`pb-1 transition-colors duration-200 ${
+                    activeSection === id 
+                      ? 'text-amber-600 border-b-2 border-amber-600' 
+                      : 'text-gray-800 hover:text-amber-600'
+                  }`}
                 >
                   {id.charAt(0).toUpperCase() + id.slice(1)}
                 </button>
@@ -383,7 +384,7 @@ export default function RestaurantLanding() {
       <section id="home" className="relative">
         <div className="h-screen max-h-screen relative">
           <LazyImage
-            src={`/hero.jpg`}
+            src="/hero.jpg"
             alt="Restaurant hero image"
             className="w-full h-full"
           />
@@ -418,7 +419,7 @@ export default function RestaurantLanding() {
         </div>
       </section>
 
-{/* About Section with Counter Animation */}
+      {/* About Section */}
       <section id="about" className="py-20 bg-amber-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
